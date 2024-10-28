@@ -1,4 +1,6 @@
 package com.demo.race_condition_demo.dto;
 
-public record AccountDetailsDto(Double balance) {
+import java.math.BigDecimal;
+
+public record AccountDetailsDto(BigDecimal balance) {
 }

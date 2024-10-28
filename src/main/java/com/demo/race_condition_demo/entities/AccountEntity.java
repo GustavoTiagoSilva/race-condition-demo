@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
@@ -20,9 +21,9 @@ public class AccountEntity {
     private UUID id;
     private String accountNumber;
     private String accountAgency;
-    private Double balance;
+    private BigDecimal balance;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public AccountEntity() {
@@ -32,7 +33,7 @@ public class AccountEntity {
     public AccountEntity(UUID id,
                          String accountNumber,
                          String accountAgency,
-                         Double balance,
+                         BigDecimal balance,
                          UserEntity user) {
         this.id = id;
         this.accountNumber = accountNumber;
@@ -65,11 +66,11 @@ public class AccountEntity {
         this.accountAgency = accountAgency;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

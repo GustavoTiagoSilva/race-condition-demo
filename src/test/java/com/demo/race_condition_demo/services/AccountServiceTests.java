@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -52,12 +53,12 @@ class AccountServiceTests {
             UUID targetUserId = UUID.randomUUID();
             UserEntity sourceUser = UserEntityFaker.createSourceUser(sourceUserId);
             UserEntity targetUser = UserEntityFaker.createTargetUser(targetUserId);
-            AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, 2000.0);
-            AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, 10000.0);
+            AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, BigDecimal.valueOf(2000.0));
+            AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, BigDecimal.valueOf(10000.0));
             when(accountRepository.findById(sourceAccountId)).thenReturn(Optional.of(sourceAccount));
             when(accountRepository.findById(targetAccountId)).thenReturn(Optional.of(targetAccount));
             TransferRequestDto transferRequest = new TransferRequestDto(
-                    1000.0,
+                    BigDecimal.valueOf(1000.0),
                     sourceAccountId,
                     targetAccountId);
 
@@ -80,12 +81,12 @@ class AccountServiceTests {
         UUID targetUserId = UUID.randomUUID();
         UserEntity sourceUser = UserEntityFaker.createSourceUser(sourceUserId);
         UserEntity targetUser = UserEntityFaker.createTargetUser(targetUserId);
-        AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, 5000.0);
-        AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, 10000.0);
+        AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, BigDecimal.valueOf(5000.0));
+        AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, BigDecimal.valueOf(10000.0));
         when(accountRepository.findById(sourceAccountId)).thenReturn(Optional.of(sourceAccount));
         when(accountRepository.findById(targetAccountId)).thenReturn(Optional.of(targetAccount));
         TransferRequestDto transferRequest = new TransferRequestDto(
-                1000.0,
+                BigDecimal.valueOf(1000.0),
                 sourceAccountId,
                 targetAccountId);
 
@@ -104,19 +105,19 @@ class AccountServiceTests {
         UUID targetUserId = UUID.randomUUID();
         UserEntity sourceUser = UserEntityFaker.createSourceUser(sourceUserId);
         UserEntity targetUser = UserEntityFaker.createTargetUser(targetUserId);
-        AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, 5000.0);
-        AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, 10000.0);
+        AccountEntity sourceAccount = AccountEntityFaker.createSourceAccount(sourceAccountId, sourceUser, BigDecimal.valueOf(5000.0));
+        AccountEntity targetAccount = AccountEntityFaker.createTargetAccount(targetAccountId, targetUser, BigDecimal.valueOf(10000.0));
         when(accountRepository.findById(sourceAccountId)).thenReturn(Optional.of(sourceAccount));
         when(accountRepository.findById(targetAccountId)).thenReturn(Optional.of(targetAccount));
         TransferRequestDto transferRequest = new TransferRequestDto(
-                10000.0,
+                BigDecimal.valueOf(10000.0),
                 sourceAccountId,
                 targetAccountId);
 
         var insufficientBalanceException = assertThrows(InsufficientBalanceException.class, () -> accountService.transfer(transferRequest));
 
-        assertEquals(5000.0, sourceAccount.getBalance());
-        assertEquals(10000.0, targetAccount.getBalance());
+        assertEquals(BigDecimal.valueOf(5000.0), sourceAccount.getBalance());
+        assertEquals(BigDecimal.valueOf(10000.0), targetAccount.getBalance());
         assertEquals("Insufficient balance on the source account", insufficientBalanceException.getMessage());
     }
 }

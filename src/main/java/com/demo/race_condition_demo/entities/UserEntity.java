@@ -1,5 +1,6 @@
 package com.demo.race_condition_demo.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,9 @@ public class UserEntity {
     private UUID id;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String cpf;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
     private AccountEntity account;
