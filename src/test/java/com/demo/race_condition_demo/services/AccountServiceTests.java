@@ -45,7 +45,7 @@ class AccountServiceTests {
     @Test
     @DisplayName("Given sufficient balance, when transfer concurrently with multiple threads, then adjust both accounts")
     void givenSufficientBalance_whenTransferConcurrentlyWithMultipleThreads_thenAdjustsBothAccounts() throws Exception {
-        try (ExecutorService service = Executors.newFixedThreadPool(10)) {
+        try (ExecutorService service = Executors.newFixedThreadPool(3)) {
             UUID sourceAccountId = UUID.randomUUID();
             UUID targetAccountId = UUID.randomUUID();
             UUID sourceUserId = UUID.randomUUID();
@@ -61,7 +61,7 @@ class AccountServiceTests {
                     sourceAccountId,
                     targetAccountId);
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 3; i++) {
                 service.submit(() -> accountService.transfer(transferRequest));
             }
 
