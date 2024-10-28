@@ -26,6 +26,7 @@ public class AccountController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public AccountDetailsDto transfer(@RequestBody TransferRequestDto transferRequest) {
+        logger.info("Thread {}", Thread.currentThread().getName());
         return accountService.transfer(transferRequest);
     }
 }
