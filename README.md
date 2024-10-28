@@ -1,53 +1,53 @@
 # Race Conditions - Demo
 
-Este projeto é um exemplo de aplicação de software para realizar transferências bancárias simples entre contas, desenvolvido com o objetivo de demonstrar a identificação e solução de **condições de corrida** (race conditions) em sistemas de alta concorrência.
+This project is a software application designed to perform simple bank transfers between accounts. It demonstrates the identification and resolution of **race conditions** in high-concurrency systems.
 
-## Objetivo do Projeto
+## Project Objective
 
-O propósito deste projeto é introduzir o conceito de **condições de corrida** e ilustrar como mitigá-las utilizando a estratégia de **Pessimistic Locking**.
+The goal of this project is to introduce the concept of **race conditions** and demonstrate how to mitigate them using **Pessimistic Locking**.
 
-**Race Condition** ocorre quando múltiplas execuções concorrem pelo acesso e modificação dos mesmos dados, levando a comportamentos inconsistentes. Aqui, utilizamos o Pessimistic Lock para garantir a consistência dos dados durante operações de transferência bancária.
+A **Race Condition** occurs when multiple executions compete for access to modify the same data, leading to inconsistent behaviors. Here, we use Pessimistic Lock to ensure data consistency during bank transfer operations.
 
-## Pré-requisitos para Executar
+## Prerequisites
 
-1. **Subir o Banco de Dados**
-    - Execute o comando abaixo para subir um banco de dados PostgreSQL via Docker:
-      ```bash
-      docker-compose up -d
-      ```
-    - **Observação:** O banco de dados é recriado a cada reinicialização.
+1. **Start the Database**
+   - Run the following command to start a PostgreSQL database via Docker:
+     ```bash
+     docker-compose up -d
+     ```
+   - **Note:** The database is recreated with each restart.
 
-2. **Iniciar a Aplicação**
-    - A partir do momento que iniciar a aplicação na sua IDE favorita, as tabelas serão automaticamente criadas no banco de dados.
-    - O projeto contém um script `import.sql` que insere dados fictícios no banco para testes iniciais.
+2. **Start the Application**
+   - Once you start the application in your preferred IDE, the tables will be automatically created in the database.
+   - The project includes an `import.sql` script to populate the database with initial test data.
 
-## Entidades do Projeto
+## Project Entities
 
-O sistema possui duas entidades principais:
+The system includes two main entities:
 
 1. **AccountEntity**
-    - `id`: Identificador único (UUID).
-    - `accountNumber`: Número da conta.
-    - `accountAgency`: Agência da conta.
-    - `balance`: Saldo atual da conta.
-    - `user`: Referência ao proprietário da conta (`UserEntity`).
+   - `id`: Unique identifier (UUID).
+   - `accountNumber`: Account number.
+   - `accountAgency`: Account agency.
+   - `balance`: Current account balance.
+   - `user`: Reference to the account owner (`UserEntity`).
 
 2. **UserEntity**
-    - `id`: Identificador único (UUID).
-    - `firstName`: Nome do usuário.
-    - `lastName`: Sobrenome do usuário.
-    - `email`: E-mail do usuário.
-    - `cpf`: CPF do usuário.
-    - `account`: Referência à conta do usuário (`AccountEntity`).
+   - `id`: Unique identifier (UUID).
+   - `firstName`: User's first name.
+   - `lastName`: User's last name.
+   - `email`: User's email.
+   - `cpf`: User's CPF (ID number).
+   - `account`: Reference to the user’s account (`AccountEntity`).
 
 ## Endpoints
 
-### Realizar Transferência
+### Perform Transfer
 
-- **Rota:** `/api/v1/accounts`
-- **Método:** POST
-- **Descrição:** Realiza uma transferência bancária entre duas contas.
-- **Corpo da Requisição (JSON):**
+- **Route:** `/api/v1/accounts`
+- **Method:** POST
+- **Description:** Executes a bank transfer between two accounts.
+- **Request Body (JSON):**
   ```json
   {
     "amount": "Double",
@@ -55,19 +55,18 @@ O sistema possui duas entidades principais:
     "targetAccountId": "UUID"
   }
 
+## Features
 
-## Funcionalidades
+- Implementation of Pessimistic Locking to handle simultaneous access to accounts during transfer operations.
 
-- Implementação de Pessimistic Lock para lidar com acessos simultâneos a contas durante a execução de transferências.
+## How to Run the Project
 
-## Como Rodar o Projeto
-
-1. Clone este repositório.
-2. Execute o comando docker-compose up -d para iniciar o banco de dados.
-3. Execute o projeto em sua IDE favorita ou com o comando:
+1. Clone this repository.
+2. Run the command docker-compose up -d to start the database.
+3. Run the project in your preferred IDE or with the following command:
 ```bash
       ./mvnw spring-boot:run
 ```
-4. O serviço estará disponível em localhost:8080.
+4. The service will be available at localhost:8080.
 
 
