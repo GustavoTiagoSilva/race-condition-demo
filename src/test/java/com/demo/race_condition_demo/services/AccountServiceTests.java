@@ -68,7 +68,7 @@ class AccountServiceTests {
 
             service.awaitTermination(5, TimeUnit.SECONDS);
 
-            assertEquals(0.0, sourceAccount.getBalance());
+            assertEquals(BigDecimal.valueOf(0.0), sourceAccount.getBalance());
         }
     }
 
@@ -92,8 +92,8 @@ class AccountServiceTests {
 
         AccountDetailsDto accountDetails = accountService.transfer(transferRequest);
 
-        assertEquals(4000.0, accountDetails.balance());
-        assertEquals(11000.0, targetAccount.getBalance());
+        assertEquals(BigDecimal.valueOf(4000.0), accountDetails.balance());
+        assertEquals(BigDecimal.valueOf(11000.0), targetAccount.getBalance());
     }
 
     @Test
