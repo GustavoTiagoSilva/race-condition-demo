@@ -1,6 +1,6 @@
 package com.demo.race_condition_demo.services;
 
-import com.demo.race_condition_demo.dto.SourceAccountDetailsDto;
+import com.demo.race_condition_demo.dto.AccountDetailsDto;
 import com.demo.race_condition_demo.dto.TransferRequestDto;
 import com.demo.race_condition_demo.entities.AccountEntity;
 import com.demo.race_condition_demo.entities.UserEntity;
@@ -89,9 +89,9 @@ class AccountServiceTests {
                 sourceAccountId,
                 targetAccountId);
 
-        SourceAccountDetailsDto sourceAccountDetailsDto = accountService.transfer(transferRequest);
+        AccountDetailsDto accountDetails = accountService.transfer(transferRequest);
 
-        assertEquals(4000.0, sourceAccountDetailsDto.balance());
+        assertEquals(4000.0, accountDetails.balance());
         assertEquals(11000.0, targetAccount.getBalance());
     }
 

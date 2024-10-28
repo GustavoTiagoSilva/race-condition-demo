@@ -1,6 +1,6 @@
 package com.demo.race_condition_demo.services;
 
-import com.demo.race_condition_demo.dto.SourceAccountDetailsDto;
+import com.demo.race_condition_demo.dto.AccountDetailsDto;
 import com.demo.race_condition_demo.dto.TransferRequestDto;
 import com.demo.race_condition_demo.entities.AccountEntity;
 import com.demo.race_condition_demo.exceptions.InsufficientBalanceException;
@@ -19,7 +19,7 @@ public class AccountService {
     }
 
     @Transactional
-    public SourceAccountDetailsDto transfer(TransferRequestDto transferRequest) {
+    public AccountDetailsDto transfer(TransferRequestDto transferRequest) {
 
         AccountEntity sourceAccount = accountRepository.findById(transferRequest.sourceAccountId()).orElseThrow(() -> new ResourceNotFoundException("Source account with id " + transferRequest.targetAccountId() + " not found"));
         AccountEntity targetAccount = accountRepository.findById(transferRequest.targetAccountId()).orElseThrow(() -> new ResourceNotFoundException("Target account with id " + transferRequest.targetAccountId() + " not found"));
@@ -37,6 +37,6 @@ public class AccountService {
         accountRepository.save(sourceAccount);
         accountRepository.save(targetAccount);
 
-        return new SourceAccountDetailsDto(sourceAccount.getBalance());
+        return new AccountDetailsDto(sourceAccount.getBalance());
     }
 }
